@@ -1,0 +1,25 @@
+type Transfer @entity(immutable: true) {
+  id: Bytes!
+  from: Bytes! # address
+  to: Bytes! # address
+  value: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type TokenHolder @entity {
+  id: Bytes!
+  balance: BigInt!
+}
+
+type _Schema_ @fulltext (
+  name: "transactionSearch"
+  language: en
+  algorithm: rank
+  include: [{
+    entity: "Transfer", 
+    fields: [{ name: "from"}, { name: "to"}, { name: "value"}]
+  }]
+
+)
